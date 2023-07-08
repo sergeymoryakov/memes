@@ -18,12 +18,18 @@
             <div class="view-container">
                 <h2>Settings:</h2>
                 <h3>Meme Image</h3>
-                <input
+                <select
                     class="input-frame"
                     type="text"
                     id="inputImage"
                     placeholder="Select Image"
-                />
+                >
+                    <option value="img_">One</option>
+                    <option value="img_">Two</option>
+                    <option value="img_">Three</option>
+                    <option value="img_">Four</option>
+                    <option value="img_">Five</option>
+                </select>
                 <h3>Text Top</h3>
                 <input
                     class="input-frame"
@@ -41,12 +47,25 @@
             </div>
             <div class="view-container">
                 <h2>Preview:</h2>
-                <div
-                    class="meme-frame"
-                    style="
-                        background-image: url('https://i.imgflip.com/1ur9b0.jpg');
-                    "
-                >
+                <div class="meme-frame">
+                    <img
+                        class="meme-img"
+                        src="https://i.imgflip.com/1ur9b0.jpg"
+                        alt=""
+                    />
+                    <div id="memeTop" class="meme-top">
+                        <p>Meme Top Placeholder...</p>
+                    </div>
+                    <div id="memeBottom" class="meme-bottom">
+                        <p>Meme Bottom Placeholder...</p>
+                    </div>
+                </div>
+                <div class="meme-frame">
+                    <img
+                        class="meme-img"
+                        src="https://i.imgflip.com/2fm6x.jpg"
+                        alt=""
+                    />
                     <div id="memeTop" class="meme-top">
                         <p>Meme Top Placeholder...</p>
                     </div>
@@ -56,5 +75,9 @@
                 </div>
             </div>
         </div>
+        <script src="data.js"></script>
+        <script src="api.js"></script>
+        <script src="controller.js"></script>
+        <script src="index.js"></script>
     </body>
 </html>

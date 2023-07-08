@@ -79,29 +79,30 @@ input {
 }
 
 .meme-frame {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 1em;
+    /* width: 100%; */
+    position: relative;
+}
+
+.meme-img {
     width: 100%;
-    aspect-ratio: 16 / 9;
-    background-repeat: no-repeat;
-    background-size: cover;
     border: 1px solid #000000;
     border-radius: 10px;
 }
 
-.meme-top,
-.meme-bottom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+.meme-top {
+    position: absolute;
+    top: 10%;
     width: 100%;
+    text-align: center;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 .meme-bottom {
-    justify-content: flex-end;
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
 }
