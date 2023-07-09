@@ -17,11 +17,10 @@
         <div class="container">
             <div class="view-container">
                 <h2>Settings:</h2>
-                <h3>Meme Image</h3>
+                <h3>Meme Selector</h3>
                 <select
-                    class="input-frame"
-                    type="text"
-                    id="inputImage"
+                    class="selector-frame"
+                    id="imageSelector"
                     placeholder="Select Image"
                 >
                     <option value="img_">One</option>
@@ -34,15 +33,15 @@
                 <input
                     class="input-frame"
                     type="text"
-                    id="inputMemeTop"
-                    placeholder="Type Top Meme"
+                    id="inputTextTop"
+                    placeholder="Type Top Text"
                 />
                 <h3>Text Bottom</h3>
                 <input
                     class="input-frame"
                     type="text"
-                    id="inputMemeBottom"
-                    placeholder="Type Meme"
+                    id="inputTextBottom"
+                    placeholder="Type Bottom Text"
                 />
             </div>
             <div class="view-container">
@@ -50,34 +49,22 @@
                 <div class="meme-frame">
                     <img
                         class="meme-img"
-                        src="https://i.imgflip.com/1ur9b0.jpg"
-                        alt=""
+                        id="memeImg"
+                        src=""
+                        alt="We Are Sorry, Image Upload Failure"
                     />
-                    <div id="memeTop" class="meme-top">
-                        <p>Meme Top Placeholder...</p>
+                    <div id="textTop" class="text-top">
+                        <p>Top Text Placeholder...</p>
                     </div>
-                    <div id="memeBottom" class="meme-bottom">
-                        <p>Meme Bottom Placeholder...</p>
-                    </div>
-                </div>
-                <div class="meme-frame">
-                    <img
-                        class="meme-img"
-                        src="https://i.imgflip.com/2fm6x.jpg"
-                        alt=""
-                    />
-                    <div id="memeTop" class="meme-top">
-                        <p>Meme Top Placeholder...</p>
-                    </div>
-                    <div id="memeBottom" class="meme-bottom">
-                        <p>Meme Bottom Placeholder...</p>
+                    <div id="textBottom" class="text-bottom">
+                        <p>Bottom Text Placeholder...</p>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="data.js"></script>
-        <script src="api.js"></script>
-        <script src="controller.js"></script>
+        <!-- <script src="data.js"></script> -->
+        <!-- <script src="api.js"></script> -->
+        <!-- <script src="controller.js"></script> -->
         <script src="index.js"></script>
     </body>
 </html>

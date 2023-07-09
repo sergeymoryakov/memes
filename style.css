@@ -39,8 +39,9 @@ h3 {
     font-weight: 400;
 }
 
+select,
 input {
-    width: auto;
+    width: 100%;
 }
 
 .container {
@@ -70,6 +71,7 @@ input {
     }
 }
 
+.selector-frame,
 .input-frame {
     margin-bottom: 1em;
     padding: 0.5em 1em;
@@ -89,7 +91,7 @@ input {
     border-radius: 10px;
 }
 
-.meme-top {
+.text-top {
     position: absolute;
     top: 10%;
     width: 100%;
@@ -98,7 +100,7 @@ input {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
 }
 
-.meme-bottom {
+.text-bottom {
     position: absolute;
     bottom: 10%;
     width: 100%;
