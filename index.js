@@ -5,10 +5,14 @@ const imageSelectorNode = document.getElementById("imageSelector");
 const inputTextTopNode = document.getElementById("inputTextTop");
 const inputTextBottomNode = document.getElementById("inputTextBottom");
 const memeImgNode = document.getElementById("memeImg");
+const textTopNode = document.getElementById("textTop");
+const textBottomNode = document.getElementById("textBottom");
 
 init();
 
 imageSelectorNode.addEventListener("input", displayImg);
+inputTextTopNode.addEventListener("input", renderTextTop);
+inputTextBottomNode.addEventListener("input", renderTextBottom);
 
 function init() {
     fetchMemes().then((res) => {
@@ -65,4 +69,12 @@ function getMemeId(memes, imgId) {
 function renderImg(memes, id) {
     memeImgNode.src = memes[id].url;
     console.log(memeImgNode.src);
+}
+
+function renderTextTop() {
+    textTopNode.textContent = inputTextTopNode.value;
+}
+
+function renderTextBottom() {
+    textBottomNode.textContent = inputTextBottomNode.value;
 }
