@@ -1,4 +1,5 @@
-const baseUrl = "https://api.imgflip.com/get_memes";
+const BASE_URL = "https://api.imgflip.com/get_memes";
+const DEFAULT_IMG = "/default-img.png";
 let memes = [];
 
 const imageSelectorNode = document.getElementById("imageSelector");
@@ -10,7 +11,7 @@ const textBottomNode = document.getElementById("textBottom");
 
 init();
 
-imageSelectorNode.addEventListener("input", displayImg);
+imageSelectorNode.addEventListener("input", handleImg);
 inputTextTopNode.addEventListener("input", renderTextTop);
 inputTextBottomNode.addEventListener("input", renderTextBottom);
 
@@ -19,14 +20,15 @@ function init() {
         if (res.success === true) {
             memes = res.data.memes;
 
-            console.log("memes received, meme[0]:");
-            console.log(memes[0].name);
-            console.log(memes[0].url);
-            console.log(memes[0].id);
+            // console.log("memes received, meme[0]:");
+            // console.log(memes[0].name);
+            // console.log(memes[0].url);
+            // console.log(memes[0].id);
 
             renderOptions(memes);
+            displayImg(DEFAULT_IMG);
 
-            console.log("options rendered");
+            // console.log("options rendered");
         } else {
             console.log("API request failed");
         }
@@ -34,7 +36,7 @@ function init() {
 }
 
 function fetchMemes() {
-    return fetch(baseUrl).then((data) => data.json());
+    return fetch(BASE_URL).then((data) => data.json());
 }
 
 function renderOptions(memes) {
@@ -48,10 +50,10 @@ function renderOptions(memes) {
     imageSelectorNode.innerHTML = optionList;
 }
 
-function displayImg() {
+function handleImg() {
     console.log("imageSelectorNode.value = ", imageSelectorNode.value);
     const memeId = getMemeId(memes, imageSelectorNode.value);
-    console.log("memeId = ", memeId);
+    // console.log("memeId = ", memeId);
     renderImg(memes, memeId);
 }
 
@@ -60,15 +62,24 @@ function getMemeId(memes, imgId) {
     for (let index = 0; index < memes.length; index++) {
         if (memes[index].id === imgId) {
             findId = index;
-            console.log("findId = ", findId);
+            // console.log("findId = ", findId);
         }
     }
     return findId;
 }
 
 function renderImg(memes, id) {
-    memeImgNode.src = memes[id].url;
-    console.log(memeImgNode.src);
+    cleanImg();
+    // console.log(memes[id].url);
+    displayImg(memes[id].url);
+}
+
+function cleanImg() {
+    memeImgNode.src = "";
+}
+
+function displayImg(url) {
+    memeImgNode.src = url;
 }
 
 function renderTextTop() {
