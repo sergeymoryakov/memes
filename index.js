@@ -1,5 +1,5 @@
 const BASE_URL = "https://api.imgflip.com/get_memes";
-const DEFAULT_IMG = "/default-img.png";
+const DEFAULT_IMG = "default-img.png";
 let memes = [];
 
 const imageSelectorNode = document.getElementById("imageSelector");
