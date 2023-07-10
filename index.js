@@ -1,71 +1,44 @@
-class API {
-    constructor() {
-        this.baseUrl = "https://api.imgflip.com";
-    }
+const imageSelectorNode = document.getElementById("imageSelector");
+const inputTextTopNode = document.getElementById("inputTextTop");
+const inputTextBottomNode = document.getElementById("inputTextBottom");
+const memeImgNode = document.getElementById("memeImg");
 
-    fetchMemes() {
-        return fetch(`${this.baseUrl}/get_memes`).then((data) => data.json());
-    }
+function fetchMemes() {
+    const baseUrl = "https://api.imgflip.com";
+    return fetch(`${baseUrl}/get_memes`).then((data) => data.json());
 }
 
-class Model {
-    constructor() {
-        console.log("Model engaged");
-    }
+function renderOptions(memes) {
+    imageSelectorNode.innerHTML = "";
+    let optionList = "";
+    memes.forEach((element) => {
+        optionList += `
+            <option value="${element.id}">${element.name}</option>
+        `;
+    });
+    imageSelectorNode.innerHTML = optionList;
 }
 
-class View {
-    constructor() {
-        this.imageSelectorNode = document.getElementById("imageSelector");
-        this.inputTextTopNode = document.getElementById("inputTextTop");
-        this.inputTextBottomNode = document.getElementById("inputTextBottom");
-        this.memeImgNode = document.getElementById("memeImg");
-
-        console.log("View engaged");
-    }
-
-    renderOptions(memes) {
-        this.imageSelectorNode.innerHTML = "";
-        let optionList = "";
-        memes.forEach((element) => {
-            optionList += `
-                <option value="${element.id}">${element.name}</option>
-            `;
-        });
-        this.imageSelectorNode.innerHTML = optionList;
-    }
-
-    renderImg(memes, id) {
-        this.memeImgNode.src = memes[id].url;
-        console.log(this.memeImgNode.src);
-    }
+function renderImg(memes, id) {
+    memeImgNode.src = memes[id].url;
+    console.log(memeImgNode.src);
 }
 
-class Controller {
-    constructor() {
-        this.model = new Model();
-        this.view = new View();
-        this.api = new API();
-    }
+function init() {
+    fetchMemes().then((res) => {
+        if (res.success === true) {
+            const memes = res.data.memes;
+            // Check - for TBS only:
+            console.log(memes);
+            console.log(memes[0]);
 
-    init() {
-        this.api.fetchMemes().then((res) => {
-            if (res.success === true) {
-                const memes = res.data.memes;
-                // Check - for TBS only:
-                console.log(memes);
-                console.log(memes[0]);
-
-                this.view.renderImg(memes, 96);
-                this.view.renderOptions(memes);
-                console.log("init completed");
-            } else {
-                console.log("API request failed");
-            }
-        });
-    }
+            renderImg(memes, 96);
+            renderOptions(memes);
+            console.log("init completed");
+        } else {
+            console.log("API request failed");
+        }
+    });
 }
 
-const app = new Controller();
-
-app.init();
+init();
