@@ -1,112 +1,151 @@
-const BASE_URL = "https://api.imgflip.com/get_memes";
-const DEFAULT_IMG = "default-img.png";
-let memes = [];
-
-const imageSelectorNode = document.getElementById("imageSelector");
-const inputTextTopNode = document.getElementById("inputTextTop");
-const inputTextBottomNode = document.getElementById("inputTextBottom");
-const memeImgNode = document.getElementById("memeImg");
-const textTopNode = document.getElementById("textTop");
-const textBottomNode = document.getElementById("textBottom");
-
-init();
-
-imageSelectorNode.addEventListener("input", handleImg);
-inputTextTopNode.addEventListener("input", renderTextTop);
-inputTextBottomNode.addEventListener("input", renderTextBottom);
-
-function init() {
-    fetchMemes().then((res) => {
-        if (res.success === true) {
-            memes = res.data.memes;
-
-            // console.log("memes received, meme[0]:");
-            // console.log(memes[0].name);
-            // console.log(memes[0].url);
-            // console.log(memes[0].id);
-
-            renderOptions(memes);
-            displayImg(DEFAULT_IMG);
-
-            // console.log("options rendered");
-        } else {
-            console.log("API request failed");
-        }
-    });
-}
-
-function fetchMemes() {
-    return fetch(BASE_URL).then((data) => data.json());
-}
-
-function renderOptions(memes) {
-    imageSelectorNode.innerHTML = "";
-    let optionList = `
-            <option value="hidden" hidden disabled selected
-            >Select Image</option>
-        `;
-    memes.forEach((element) => {
-        optionList += `
-            <option value="${element.id}">${element.name}</option>
-        `;
-    });
-    imageSelectorNode.innerHTML = optionList;
-}
-
-function handleImg() {
-    console.log("imageSelectorNode.value = ", imageSelectorNode.value);
-    const memeId = getMemeId(memes, imageSelectorNode.value);
-    // console.log("memeId = ", memeId);
-    renderImg(memes, memeId);
-}
-
-function getMemeId(memes, imgId) {
-    let findId = "";
-    for (let index = 0; index < memes.length; index++) {
-        if (memes[index].id === imgId) {
-            findId = index;
-            // console.log("findId = ", findId);
-        }
+class API {
+    constructor() {
+        this.BASE_URL = "https://api.imgflip.com/get_memes";
+        console.log("API defined");
     }
-    return findId;
+    fetchMemes() {
+        console.log("BASE_URL fetched");
+        return fetch(this.BASE_URL).then((data) => data.json());
+    }
 }
+class Model {
+    constructor() {
+        this.memes = [];
+        console.log("Model defined");
+    }
 
-function renderImg(memes, id) {
-    cleanImg();
-    const imageUrl = memes[id].url;
-    loadImage(imageUrl)
-        .then((image) => displayImg(image))
-        .catch(() => {
-            console.log("Error loading image. Rendering default image.");
-            displayImg(DEFAULT_IMG);
+    getMemeId(memes, imgId) {
+        this.findId = "";
+        for (let index = 0; index < memes.length; index++) {
+            if (memes[index].id === imgId) {
+                this.findId = index;
+                console.log("findId = ", this.findId);
+            }
+        }
+        return this.findId;
+    }
+}
+class View {
+    constructor() {
+        this.DEFAULT_IMG = "default-img.png";
+
+        this.imageSelectorNode = document.getElementById("imageSelector");
+        this.inputTextTopNode = document.getElementById("inputTextTop");
+        this.inputTextBottomNode = document.getElementById("inputTextBottom");
+        this.memeImgNode = document.getElementById("memeImg");
+        this.textTopNode = document.getElementById("textTop");
+        this.textBottomNode = document.getElementById("textBottom");
+
+        this.inputTextTopNode.addEventListener("input", this.renderTextTop);
+        this.inputTextBottomNode.addEventListener(
+            "input",
+            this.renderTextBottom
+        );
+
+        console.log("View defined");
+    }
+
+    renderOptions(memes) {
+        this.imageSelectorNode.innerHTML = "";
+        let optionList = `
+        <option value="hidden" hidden disabled selected
+        >Select Image</option>
+        `;
+        memes.forEach((element) => {
+            optionList += `
+            <option value="${element.id}">${element.name}</option>
+            `;
         });
-    displayImg(memes[id].url);
+        this.imageSelectorNode.innerHTML = optionList;
+    }
+
+    cleanImg() {
+        this.memeImgNode.src = "";
+    }
+
+    displayImg(url) {
+        this.memeImgNode.src = url;
+    }
+
+    renderTextTop = () => {
+        this.textTopNode.textContent = this.inputTextTopNode.value;
+    };
+
+    renderTextBottom = () => {
+        this.textBottomNode.textContent = this.inputTextBottomNode.value;
+    };
 }
 
-function loadImage(url) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => resolve(url);
-        img.onerror = () => reject();
-        img.src = url;
-    }).catch(() => {
-        console.log("Error loading image. Rendering default image.");
-        return DEFAULT_IMG;
-    });
+class Controller {
+    constructor() {
+        this.model = new Model();
+        this.view = new View(this);
+        this.api = new API(console.log());
+        console.log("Controller initiated");
+        this.view.imageSelectorNode.addEventListener("input", () => {
+            this.handleImg();
+        });
+    }
+
+    init() {
+        this.api.fetchMemes().then((res) => {
+            if (res.success === true) {
+                this.model.memes = res.data.memes;
+
+                // console.log("memes received, meme[0]:");
+                // console.log(memes[0].name);
+                // console.log(memes[0].url);
+                // console.log(memes[0].id);
+
+                this.view.renderOptions(this.model.memes);
+                this.view.displayImg(this.view.DEFAULT_IMG);
+
+                // console.log("options rendered");
+            } else {
+                console.log("API request failed");
+            }
+        });
+    }
+
+    handleImg() {
+        console.log(
+            "imageSelectorNode.value = ",
+            this.view.imageSelectorNode.value
+        );
+        const memeId = this.model.getMemeId(
+            this.model.memes,
+            this.view.imageSelectorNode.value
+        );
+        // console.log("memeId = ", memeId);
+        this.renderImg(this.model.memes, memeId);
+    }
+
+    renderImg(memes, id) {
+        this.view.cleanImg();
+        const imageUrl = memes[id].url;
+        this.loadImage(imageUrl)
+            .then((image) => displayImg(image))
+            .catch(() => {
+                console.log("Error loading image. Rendering default image.");
+                this.view.displayImg(this.view.DEFAULT_IMG);
+            });
+        this.view.displayImg(memes[id].url);
+    }
+
+    loadImage(url) {
+        return new Promise((resolve, reject) => {
+            this.img = new Image();
+            this.img.onload = () => resolve(url);
+            this.img.onerror = () => reject();
+            this.img.src = url;
+        }).catch(() => {
+            console.log("Error loading image. Rendering default image.");
+            return this.view.DEFAULT_IMG;
+        });
+    }
 }
 
-function cleanImg() {
-    memeImgNode.src = "";
-}
+// module Index:
+const app = new Controller();
 
-function displayImg(url) {
-    memeImgNode.src = url;
-}
-
-function renderTextTop() {
-    textTopNode.textContent = inputTextTopNode.value;
-}
-
-function renderTextBottom() {
-    textBottomNode.textContent = inputTextBottomNode.value;
-}
+app.init();
