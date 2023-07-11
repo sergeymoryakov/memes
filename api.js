@@ -1,9 +1,10 @@
 class API {
     constructor() {
-        this.baseUrl = "https://api.imgflip.com";
+        this.BASE_URL = "https://api.imgflip.com/get_memes";
+        console.log("API defined");
     }
-
     fetchMemes() {
-        return fetch(`${this.baseUrl}/get_memes`).then((data) => data.json);
+        console.log("BASE_URL fetched");
+        return fetch(this.BASE_URL).then((data) => data.json());
     }
 }
