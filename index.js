@@ -19,9 +19,10 @@ class Model {
         for (let index = 0; index < memes.length; index++) {
             if (memes[index].id === imgId) {
                 this.findId = index;
-                console.log("findId = ", this.findId);
+                // console.log("findId = ", this.findId);
             }
         }
+        console.log(`model.getMemeId() reverted findId = ${this.findId} back`);
         return this.findId;
     }
 }
@@ -124,7 +125,7 @@ class Controller {
         this.view.cleanImg();
         const imageUrl = memes[id].url;
         this.loadImage(imageUrl)
-            .then((image) => displayImg(image))
+            .then((image) => this.view.displayImg(image))
             .catch(() => {
                 console.log("Error loading image. Rendering default image.");
                 this.view.displayImg(this.view.DEFAULT_IMG);
@@ -133,11 +134,34 @@ class Controller {
     }
 
     loadImage(url) {
+        const TIMEOUT_DURATION = 5000; // 5 seconds timeout
+
         return new Promise((resolve, reject) => {
-            this.img = new Image();
-            this.img.onload = () => resolve(url);
-            this.img.onerror = () => reject();
-            this.img.src = url;
+            const img = new Image();
+            let loaded = false;
+
+            img.onload = () => {
+                if (!loaded) {
+                    loaded = true;
+                    resolve(url);
+                }
+            };
+
+            img.onerror = () => {
+                if (!loaded) {
+                    loaded = true;
+                    reject();
+                }
+            };
+
+            img.src = url;
+
+            setTimeout(() => {
+                if (!loaded) {
+                    loaded = true;
+                    reject();
+                }
+            }, TIMEOUT_DURATION);
         }).catch(() => {
             console.log("Error loading image. Rendering default image.");
             return this.view.DEFAULT_IMG;
