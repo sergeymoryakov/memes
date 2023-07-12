@@ -110,3 +110,10 @@ input {
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
+
+/* Make sure the long words are wrapped within the width of element */
+.text-top,
+.text-bottom {
+    hyphens: auto;
+    word-wrap: break-word;
+}
